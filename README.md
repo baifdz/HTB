@@ -1,2 +1,1 @@
-# HTB
-Heartbreaker-Denouement writeup
+# HTB writeups 
