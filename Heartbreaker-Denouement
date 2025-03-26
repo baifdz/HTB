@@ -1,0 +1,63 @@
+What type of scanning technique was used to discover the web path of the victim's web server? Specify the name of the corresponding MITRE sub-technique.
+
+1.-The scanning technique used to discover the web path of the victim's web server is likely Web Application Enumeration. This could involve scanning for potential endpoints, directories, or vulnerabilities in the web application to understand its structure.
+Active Scanning:
+
+ID: T1595.003
+Sub-technique of:  T1595
+Tactic: Reconnaissance
+Platforms: PRE
+Contributors: Elvis Veliz, Citi; Jan Petrov, Citi; Richard Julian, Citi
+Version: 1.0
+Created: 04 March 2022
+Last Modified: 15 April 2022
+
+2.-It seems a web request possibly could have been rerouted, potentially revealing the web server's web path to the Threat Actor. What specific HTML status code might have provided this information?
+
+[root]/var/log/apache2.log
+35.169.66.138 - - [13/Mar/2024:13:59:27 +0000] "GET /index.php HTTP/1.1"  514 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
+
+The specific HTML status code that might have provided information about the web server's web path is HTTP 301 (Moved Permanently) or HTTP 302 (Found).
+
+Both of these status codes are used for redirection, which could have revealed the web path to the attacker during the request process.
+
+
+3.-In the initial payload submitted by the threat actor exploiting a weakness in the web server, what file on the server was targeted?
+[root]/var/log/error.log
+
+[Wed Mar 13 14:05:17.635598 2024] [php7:notice] [pid 410] [client 35.169.66.138:48240] Request: POST /wb-loanapp-tracker.php Input: file:///, referer: http://3.144.237.152/wb-loanapp-tracker.php
+
+
+4.-What is the name of the vulnerability exploited by the Threat Actor to access the cloud metadata?
+If the application does not properly validate or sanitize user input, an attacker might be able to send a crafted HTTP request that bypasses security measures and targets the metadata service. 
+T1071.001 - Application Layer Protocol: Web Protocols (this refers to using web protocols to perform SSRF attacks).
+
+T1552.001 - Abuse Elevation Control Mechanism: Credentials in Files (related to accessing credentials, like those retrieved from metadata services).
+
+5.-What time (UTC) did the Threat Actor first access the cloud metadata service of the web server instance?
+
+To determine the exact time (UTC) when the threat actor first accessed the cloud metadata service of the web server instance, you would need to examine the relevant AWS CloudTrail logs or the instance access logs for the affected EC2 instance.
+Check AWS CloudTrail Logs.
+Inspect Web Server Logs.
+Access AWS EC2 Instance Logs.
+
+[Wed Mar 13 14:06:21.695943 2024] [php7:notice] [pid 412] [client 35.169.66.138:52712] Request: POST /wb-loanapp-tracker.php Input: http://169.254.169.254, referer: http://3.144.237.152/wb-loanapp-tracker.php
+
+
+6.-
+
+7.-
+
+8.-
+
+9.-
+
+10.-
+
+11.-
+
+12.-
+
+13.-
+
+14.-
