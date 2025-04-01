@@ -44,20 +44,80 @@ Access AWS EC2 Instance Logs.
 [Wed Mar 13 14:06:21.695943 2024] [php7:notice] [pid 412] [client 35.169.66.138:52712] Request: POST /wb-loanapp-tracker.php Input: http://169.254.169.254, referer: http://3.144.237.152/wb-loanapp-tracker.php
 
 
-6.-
+6.-To gain insight into the database content, can you provide the name of at least one table?
 
-7.-
+[root]/home/ubuntu/.mysql_history
 
-8.-
+_HiStOrY_V2_
+SHOW\040DATABASES;
+USE\040CUSTOMER_DATA;
+SHOW\040TABLES;
+SHOW\040INDEX\040FROM\040CustomerInfo;
+CHECK\040TABLE\040CustomerInfo;
+OPTIMIZE\040TABLE\040CustomerInfo;
+REPAIR\040TABLE\040CustomerInfo;
+ANALYZE\040TABLE\040CustomerInfo;
+SHOW\040DATABASES;
+exit
 
-9.-
 
-10.-
+7.-Which AWS API call functions similarly to the 'whoami' command in Windows or Linux?
+https://docs.aws.amazon.com/cli/latest/reference/sts/get-caller-identity.html
 
-11.-
 
-12.-
+8.-The compromised AWS IAM credentials were exploited by the Threat Actor. Can you identify the regions where they were used successfully? Separate regions by comma and in ascending order.
+[root]/var/log/apache2.log
 
-13.-
+us-east-1,us-east-2
 
-14.-
+9.-The compromised IAM account's early access may have enabled the Threat Actor to obtain the public IP addresses of running instances before the web server attack. What API call could have exposed this information?
+
+https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html
+
+10.-Looks like the Threat Actor used multiple IP addresses. What is the total number of unsuccessful requests made by the Threat Actor as seen in the CloudTrail logs?
+This was a random test
+742
+
+11.-Can you identify the AWS identities linked to successful API calls potentially used by the threat actor to reveal infrastructure details? Exclude any identity-related calls. Separate ARNs by comma and in ascending order.
+AWS/us-east-2/2024/03/14,13,12/*.json
+
+So in here its necessary to search in files for the username EC2DatabaseConnection and devops-ash, which is an user, if you made it trough all until here you should know what i mean.
+
+arn:aws:iam::949622803460:user/devops-alex,arn:aws:iam::949622803460:user/devops-ash
+
+arn:aws:iam::949622803460:user/devops-ash,arn:aws:sts::949622803460:assumed-role/EC2DatabaseConnection/i-0bdf91168b50e943e
+https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/ec2-rds-connect.html
+
+12.-Evidence suggests that a couple of AWS RDS databases were targeted. Can you identify all DB snapshots that were created by the Threat Actor? Separate identifiers by commas and in ascending order.
+
+arn:aws:sts::949622803460:assumed-role/EC2DatabaseConnection/i-0bdf91168b50e943e
+
+
+13.-The threat actor successfully exfiltrated data to their account. Can you identify the AWS account ID they used?
+
+            "eventTime": "2024-03-13T14:50:00Z",
+            "eventSource": "rds.amazonaws.com",
+            "eventName": "ModifyDBSnapshotAttribute",
+            "awsRegion": "us-east-2",
+            "sourceIPAddress": "34.202.84.37",
+            "userAgent": "aws-cli/1.29.54 md/Botocore#1.31.54 md/awscrt#1.0.0.dev0 ua/2.0 os/linux#6.3.0-kali1-cloud-amd64 md/arch#x86_64 lang/python#3.11.8 md/pyimpl#CPython cfg/retry-mode#legacy botocore/1.31.54",
+            "requestParameters": {
+                "dBSnapshotIdentifier": "transactiondb-prod-2024-03-13-06-53",
+                "attributeName": "restore",
+                "valuesToAdd": ["143637014344"]
+            },
+
+
+14.-Which MITRE Technique ID corresponds to the activity described in Question 13?
+
+
+ID: T1537
+Sub-techniques:  No sub-techniques
+ⓘ
+Tactic: Exfiltration
+ⓘ
+Platforms: IaaS, Office Suite, SaaS
+Contributors: Darin Smith, Cisco; ExtraHop; Gabriel Currie; Praetorian
+Version: 1.5
+Created: 30 August 2019
+Last Modified: 15 October 2024
