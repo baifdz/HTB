@@ -1,0 +1,54 @@
+Para este sherlock solo necesitas dos herramientas un lector de MFT (Master File Table) y saber exportar los datos de este.
+
+Simon Stark was targeted by attackers on February 13. He downloaded a ZIP file from a link received in an email. What was the name of the ZIP file he downloaded from the link?
+Dentro del archivo MFT se buscan los usuarios en el directorio de windows, el cual es:
+c:\Users\simon.stark\Downloads
+
+Dentro de este directorio se enncuentran varios archivos .zip
+
+Solo hay dos opciones:
+-Stage-20240213T093324Z-001.zip
+-KAPE.zip
+
+Examine the Zone Identifier contents for the initially downloaded ZIP file. This field reveals the HostUrl from where the file was downloaded, serving as a valuable Indicator of Compromise (IOC) in our investigation/analysis. What is the full Host URL from where this ZIP file was downloaded?
+Dentro de los archivos se puede apreciar la URL de donde se descarga el archivo
+
+https://storage.googleapis.com/drive-bulk-export-anonymous/20240213T093324.039Z/4133399871716478688/a40aecd0-1cf3-4f88-b55a-e188d5c1c04f/1/c277a8b4-afa9-4d34-b8ca-e1eb5e5f983c?authuser
+
+
+What is the full path and name of the malicious file that executed malicious code and connected to a C2 server?
+
+Aqui seleccionamos el filtro por archivo, aqui es necesario conocer los tipos de extensiones que hay, los mas comunes para ejecutables dentro de windows son .ps1 para powershell y .bat para cmd que hace los comandos en general en casi todas las versiones de windows, a comparativa de powershell 
+que generalmente necesita actualizaciones o descarga de herramientas
+
+C:\Users\simon.stark\Downloads\Stage-20240213T093324Z-001\Stage\invoice\invoices\invoice.bat
+
+
+Analyze the $Created0x30 timestamp for the previously identified file. When was this file created on disk?
+En este caso para analizar el $Created0x30 hay que considerar que se esta leyendo como una variable:
+$created = 0x30
+
+donde $Created es un valor con ubicacion en 0x30, por lo que se debe buscar ya sea en created o en la ubicacion 0x30
+
+2024-02-13 16:38:39
+
+Finding the hex offset of an MFT record is beneficial in many investigative scenarios. Find the hex offset of the stager file from Question 3.
+En este caso el hex offset puede sacarse de varias formas:
+1.In MFT records, find the Entry Number value for the file in question. Multiply that number by 1024 (since this is the size of each record). The result is the offset in Decimal. Convert it to hex to find your answer.
+2.En el parametro "OFFSET" del archivo: C:\Users\simon.stark\Downloads\Stage-20240213T093324Z-001\Stage\invoice\invoices\invoice.bat
+3.Busqueda hexadecimal
+4.COnversion de valores
+
+16E3000
+
+
+Each MFT record is 1024 bytes in size. If a file on disk has smaller size than 1024 bytes, they can be stored directly on MFT File itself. These are called MFT Resident files. 
+During Windows File system Investigation, its crucial to look for any malicious/suspicious files that may be resident in MFT. This way we can find contents of malicious files/scripts. Find the contents of The malicious stager identified in Question3 and answer with the C2 IP and port.
+Aqui solamente es buscar la direccion IP con el puerto correspondiente, con calquier buscador o explorador de MFT es facil encontrarlo, inclusiver en lectores de memoria Hexadecimal.
+
+43.204.110.203:6666
+
+
+
+
+
