@@ -1,0 +1,68 @@
+CrewCrow
+
+
+1.Identify the conferencing application used by CrewCrow members for their communications.
+En este apartado es necesario conocer donde se alojan los programas en microsoft, en este caso es especifico para el usuario del equipo CrewCrow
+
+CrewCrow\C\Users\Nefarious\AppData\Roaming\Zoom
+zoom 
+
+
+2.Determine the last time Nefarious used the conferencing application.
+
+
+3.Where is the conferencing application's data stored?
+
+C:\Users\Nefarious\AppData\Roaming\Zoom\data
+
+4.Which Windows data protection service is used to secure the conferencing application's database files?
+
+
+
+
+5.Determine the sign-in option used by Nefarious.
+
+
+
+
+6.Retrieve the password used by Nefarious
+
+
+
+
+
+7.Find the key derivation function iterations used in the encryption process of the conferencing application's database.
+
+
+
+
+8.Find the key derivation function page size used in the encryption process.
+
+
+
+
+9.Identify Nefarious email address.
+
+
+
+10.What is the Meeting ID?
+
+
+
+
+
+11.Retrieve the password used to encrypt the plan PDF file from the meeting chat.
+
+
+
+
+12.Discover the location from which the upcoming cyber-attack will be launched.
+
+
+
+
+
+
+
+
+
