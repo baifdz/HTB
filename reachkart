@@ -5,7 +5,10 @@ What was the vulnerable endpoint that allowed the attacker to leak files?
 
 Task 2
 When was the first successful exploitation of the vulnerable endpoint by the attacker (time in UTC)?
+1114	2025-02-28 22:09:22.509963	172.18.10.1	172.18.10.2	HTTP	995	GET /user/getOrderBill?template=../../../../../../etc/passwd HTTP/1.1 
+Mar  1, 2025 04:09:22.509963000 UTC
 
+2025-03-01 04:09:22
 YYYY-MM-DD hh:mm:ss
 
 
@@ -18,7 +21,7 @@ package.json
 
 Task 4
 Which Ethereum compatible development smart contract network is running on the server? (Format: name@version)
-
+hardhat@2.22.18
 *******@*.**.**
 
 Task 5
