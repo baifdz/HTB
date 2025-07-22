@@ -128,10 +128,55 @@ What was the total amount of Ether stolen by the attacker? (1 Eth = 10^18 wei)
 
 **.*
 
+Para esto hacemos un script con las transacciones
+import rlp
+from eth_utils import to_int, from_wei, decode_hex
+from eth_typing import HexStr
+
+# Lista de transacciones tipo 0x02
+transactions_hex = [
+    "0x02f874821b3980843b9aca00845b05ae6c8252099482b03246a287e5ed681b967cbd9b610a24bd5ef9881bc16d674ec8000080c001a0fd64b8d459b7cd78ed1adf75f8f8535e44bc8a03ce8d43ec5f8930a7b17ee661a055faa08c7de248f2c8e005499e976cf29fcc5cfe582ec174a6ca13cd842f2163",
+    "0x02f874821b3980843b9aca00845774b8e68252099482b03246a287e5ed681b967cbd9b610a24bd5ef98829a2241af62c000080c080a01556d492c492c3a45bd2a8f0a63aa79810145d562d2a663d287c585e10f2c1daa0336d9e03e5c939dc6c92e63e88939766e73978d5630c03f800de22ba6e963dca",
+    "0x02f874821b3980843b9aca008453faba768252099482b03246a287e5ed681b967cbd9b610a24bd5ef9883782dace9d90000080c001a0822a278a39833edae759a8170b9d2f2654c5633a47ada665d0fac9a324258c89a03bf65e19d5ef8bc060c359e21887d5bdb2777da5d8745c86c89a87a0291a168f",
+    "0x02f874821b3980843b9aca008450efd3f48252099482b03246a287e5ed681b967cbd9b610a24bd5ef98829a2241af62c000080c001a0ec76c401ae07134984bd3d0ab96b63aeb8fcd199b25609ead96eadaa6f8d10a8a0220bdff2c5642233aaf00634d3592eb1a713d1c2fbc8c7adbeaf0757779d52bf",
+    "0x02f874821b3980843b9aca00844e46275e8252099482b03246a287e5ed681b967cbd9b610a24bd5ef9882c68af0bb140000080c001a05c91c29b078e0636eaf533d7625ba614f5097a4868db99dcd4bb95551294b655a07f5c77694d3211554554a59a62ea510c135a49edec64ee2be09caeabcce38f13",
+    "0x02f874821b3980843b9aca00844bf191d08252099482b03246a287e5ed681b967cbd9b610a24bd5ef9881e87f85809dc000080c001a010dc988db33355f56db2b5e710a63a9c65b33d45dda56cc406d5372b98a9fd85a01bba05881103c7d2559ecbf8adda2184ab6dd3ea47a93bb89e42cc28b9535882",
+    "0x02f874821b3901843b9aca008449e7743a8252099482b03246a287e5ed681b967cbd9b610a24bd5ef9883e7336287142000080c001a0d0981381eb016e6895dcbfa2285fe1c23cb8445a6167e422577b2b98efd70da2a065dee1b6771ce72edc7b475ef096326a4237ea1d7f26f07ae7ce19414e83aa52",
+    "0x02f874821b3980843b9aca0084481e82f48252099482b03246a287e5ed681b967cbd9b610a24bd5ef98822b1c8c1227a000080c001a0312df507239f2f25c6e6303265f95bedf86e68c164d21804f877a0266becdf00a0381850e871001b27dd55cac1cbba441aa6ff23caedf25f373dc9b571ecb40162"
+]
+
+total_wei = 0
+
+for tx_hex in transactions_hex:
+    raw_bytes = decode_hex(tx_hex)
+    assert raw_bytes[0] == 0x02  # Tipo EIP-1559
+    decoded = rlp.decode(raw_bytes[1:])  # Saltar el byte 0x02
+    value_wei = to_int(decoded[6])  # Índice 6 = value
+    total_wei += value_wei
+
+total_eth = from_wei(total_wei, 'ether')
+print(f"✅ Total ETH across all txs: {total_eth} ETH")
+y nos da el total
+✅ Total ETH across all txs: 24.4 ETH
+
+
+
 Task 14
 What is the block number of the last transaction in which Ether was stolen? (Decimal)
 
 number, such as 3, 17, or 4567
+
+Dentro del paquete 2063 buscamos el apartado de blockNumber
+Member: blockNumber
+    [Path with value: /[]/result/blockNumber:0x12]
+    [Member with value: blockNumber:0x12]
+    String value: 0x12
+    Key: blockNumber
+    [Path: /[]/result/blockNumber]
+
+y convertimos de hexadecimal a decimal
+0x12=18
+
 
 Task 15
 After the attacker stole the Ether, what was the balance in their wallet? (Ignore the trailing zeros)
