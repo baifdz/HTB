@@ -54,7 +54,7 @@ find all "svc"
 or IDs 4887, 4769 which are related to the web server service
 
 
-12. Attacker dropped another tool to exploit a misconfiguration in AD CS. When was this tool successfully created on the endpoint?
+11. Attacker dropped another tool to exploit a misconfiguration in AD CS. When was this tool successfully created on the endpoint?
 Searching up for the tool [certipy.exe](https://github.com/ly4k/Certipy) out of the files in the original log
 
 .\MFTECmd.exe -f 'JobApplicant\c\$Extend\$J' --csv "JobApplicant" --csvf "usn_results.csv"
@@ -66,25 +66,25 @@ We filter by the tool filename with EmEditor
 19:52:03 - DataExtend|FileCreate|Close: The write operation is completed, and the file handle is closed. 
 20:11:31 - FileDelete|Close: The attacker executes the deletion command via the webshell..   
 
-14. When was AD CS exploited successfully on the domain controller?
+12. When was AD CS exploited successfully on the domain controller?
 
 
 
-15. Identify the name and version of the vulnerable certificate template exploited in the attack.
+13. Identify the name and version of the vulnerable certificate template exploited in the attack.
 
 
-16. A new security descriptor was applied to the vulnerable certificate template and this security descriptor grants full control over the certificate template to a specific group. What is the name of that group?
+14. A new security descriptor was applied to the vulnerable certificate template and this security descriptor grants full control over the certificate template to a specific group. What is the name of that group?
 
-17. When was the certificate issued to the threat actor for a high-privilege user, allowing privilege escalation?
+15. When was the certificate issued to the threat actor for a high-privilege user, allowing privilege escalation?
 
-18. The threat actor successfully retrieved the NTLM hash of a high-privilege user using the newly issued certificate. What was the serial number of the certificate used to achieve this privilege escalation?
+16. The threat actor successfully retrieved the NTLM hash of a high-privilege user using the newly issued certificate. What was the serial number of the certificate used to achieve this privilege escalation?
 
-19. The attacker exploited an Active Directory misconfiguration to gain access to Active Directory secrets stored on the domain controller. What is the MITRE ATT&CK ID for this technique?
+17. The attacker exploited an Active Directory misconfiguration to gain access to Active Directory secrets stored on the domain controller. What is the MITRE ATT&CK ID for this technique?
 
-20. When was the attack mentioned in the previous task successfully carried out?
+28. When was the attack mentioned in the previous task successfully carried out?
 
-21. A Golden Ticket was issued using a previously dropped tool. What is the filename of this ticket?
+19. A Golden Ticket was issued using a previously dropped tool. What is the filename of this ticket?
 
 
-22. The threat actor used the web shell to delete all files involved in this operation. When did the deletion routine begin?
+20. The threat actor used the web shell to delete all files involved in this operation. When did the deletion routine begin?
 
